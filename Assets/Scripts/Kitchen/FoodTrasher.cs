@@ -22,7 +22,7 @@ namespace CookingPrototype.Kitchen {
 		/// </summary>
 		[UsedImplicitly]
 		public void TryTrashFood(){
-			if ( _place.CurFood.CurStatus == Food.FoodStatus.Overcooked ){
+			if ( _place.CurFood?.CurStatus == Food.FoodStatus.Overcooked ){
 				if(_timer == 0 ) {
 					_timer = Time.realtimeSinceStartup;
 				}
