@@ -16,7 +16,7 @@ namespace CookingPrototype.Kitchen {
 
 		const string ORDERS_PREFABS_PATH = "Prefabs/Orders/{0}";
 
-		List<Order> _orders   = null;
+		public List<Order> _orders   = null;
 		float       _timer    = 0f;
 		bool        _isActive = false;
 

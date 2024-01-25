@@ -26,7 +26,7 @@ namespace CookingPrototype.Controllers {
 		const string CUSTOMER_PREFABS_PATH = "Prefabs/Customer";
 
 		float _timer = 0f;
-		Stack<List<Order>> _orderSets;
+		public Stack<List<Order>> _orderSets;
 
 		bool HasFreePlaces {
 			get { return CustomerPlaces.Any(x => x.IsFree); }
@@ -127,6 +127,7 @@ namespace CookingPrototype.Controllers {
 			if ( place == null ) {
 				return;
 			}
+			
 			place.Free();
 			GameplayController.Instance.CheckGameFinish();
 		}
@@ -139,7 +140,22 @@ namespace CookingPrototype.Controllers {
 		/// <param name="order">Заказ, который пытаемся отдать</param>
 		/// <returns>Флаг - результат, удалось ли успешно отдать заказ</returns>
 		public bool ServeOrder(Order order) {
-			throw  new NotImplementedException("ServeOrder: this feature is not implemented.");
+
+			var customerPlaces = CustomerPlaces.Where(c => c.CurCustomer != null).ToArray();
+			var customers = (from c in customerPlaces
+							orderby c.CurCustomer.WaitTime ascending
+							select c.CurCustomer).ToArray();
+
+			foreach ( var c in customers ) {
+				if ( c.ServeOrder(order) ) {
+					if ( c._orders.Count == 0 ) {
+
+						FreeCustomer(c);
+					}
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 }
