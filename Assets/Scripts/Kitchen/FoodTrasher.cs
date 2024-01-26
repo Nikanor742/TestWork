@@ -11,7 +11,7 @@ namespace CookingPrototype.Kitchen {
 		FoodPlace _place = null;
 		float     _timer = 0f;
 
-		const float _doubleTapTime = 0.3f;
+		const float _doubleTapTime = 0.4f;
 
 		void Start() {
 			_place = GetComponent<FoodPlace>();
