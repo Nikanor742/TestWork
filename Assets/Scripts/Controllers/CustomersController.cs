@@ -112,10 +112,9 @@ namespace CookingPrototype.Controllers {
 			CustomerPlaces.ForEach(x => x.Free());
 			_timer = 0f;
 
+			GameplayController.Instance.OrdersTarget = totalOrders - 2;
 			TotalCustomersGenerated = 0;
 			TotalCustomersGeneratedChanged?.Invoke();
-			 
-			GameplayController.Instance.OrdersTarget = totalOrders - 2;
 		}
 
 		/// <summary>

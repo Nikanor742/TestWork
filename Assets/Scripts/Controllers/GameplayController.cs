@@ -6,6 +6,7 @@ using CookingPrototype.Kitchen;
 using CookingPrototype.UI;
 
 using JetBrains.Annotations;
+using System.Collections;
 
 namespace CookingPrototype.Controllers {
 	public sealed class GameplayController : MonoBehaviour {
@@ -14,6 +15,8 @@ namespace CookingPrototype.Controllers {
 		public GameObject TapBlock   = null;
 		public WinWindow  WinWindow  = null;
 		public LoseWindow LoseWindow = null;
+
+		public StartWindow StartWindow = null;
 
 
 		int _ordersTarget = 0;
@@ -35,6 +38,15 @@ namespace CookingPrototype.Controllers {
 				Debug.LogError("Another instance of GameplayController already exists");
 			}
 			Instance = this;
+			StartCoroutine(InitTotalOrdersCount());
+		}
+
+		IEnumerator InitTotalOrdersCount() {
+			yield return new WaitForSeconds(0.01f);
+			if ( OrdersTarget != 0) {
+				StartWindow?.Show();
+			}
+			else StartCoroutine(InitTotalOrdersCount());
 		}
 
 		void OnDestroy() {
@@ -69,6 +81,7 @@ namespace CookingPrototype.Controllers {
 			TapBlock?.SetActive(false);
 			WinWindow?.Hide();
 			LoseWindow?.Hide();
+			StartWindow?.Hide();
 		}
 
 		[UsedImplicitly]
@@ -83,6 +96,11 @@ namespace CookingPrototype.Controllers {
 			return true;
 		}
 
+		public void StartGame() {
+			HideWindows();
+			Time.timeScale = 1f;
+		}
+
 		public void Restart() {
 			Init();
 			CustomersController.Instance.Init();
@@ -91,6 +109,7 @@ namespace CookingPrototype.Controllers {
 			foreach ( var place in FindObjectsOfType<AbstractFoodPlace>() ) {
 				place.FreePlace();
 			}
+			StartWindow?.Show();
 		}
 
 		public void CloseGame() {

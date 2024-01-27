@@ -1,18 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class StartWindow : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+using CookingPrototype.Controllers;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+using TMPro;
+
+namespace CookingPrototype.UI {
+	public sealed class StartWindow : MonoBehaviour {
+		public TMP_Text GoalText = null;
+		public Button OkButton = null;
+
+		bool _isInit = false;
+
+		void Init() {
+			var gc = GameplayController.Instance;
+
+			OkButton.onClick.AddListener(gc.StartGame);
+		}
+
+		public void Show() {
+			if ( !_isInit ) {
+				Init();
+			}
+
+			Time.timeScale = 0f;
+			var gc = GameplayController.Instance;
+
+			GoalText.text = gc.OrdersTarget.ToString();
+
+			gameObject.SetActive(true);
+		}
+
+		public void Hide() {
+			gameObject.SetActive(false);
+		}
+
+		private void OnDestroy() {
+			OkButton.onClick.RemoveAllListeners();
+		}
+	}
 }
