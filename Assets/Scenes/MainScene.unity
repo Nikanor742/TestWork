@@ -12422,7 +12422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CustomersTargetNumber: 15
-  CustomerWaitTime: 15
+  CustomerWaitTime: 18
   CustomerSpawnTime: 3
   CustomerPlaces:
   - {fileID: 1683130145}
